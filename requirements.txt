@@ -1,1 +1,5 @@
+streamlit
+crewai
 crewai-tools
+chromadb
+python-dotenv
