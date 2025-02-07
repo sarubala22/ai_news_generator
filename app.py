@@ -1,12 +1,11 @@
+import os
 import streamlit as st
 from crewai import Agent, Task, Crew, LLM
 from crewai_tools import SerperDevTool
 from dotenv import load_dotenv
-import os
 
-# Load environment variables from Streamlit secrets (no need for dotenv)
-SERPER_API_KEY = st.secrets["SERPER_API_KEY"]
-COHERE_API_KEY = st.secrets["COHERE_API_KEY"]
+# Load environment variables
+load_dotenv()
 
 # Streamlit page config
 st.set_page_config(page_title="AI News Generator", page_icon="📰", layout="wide")
@@ -38,7 +37,7 @@ with st.sidebar:
     
     # Add some helpful information
     with st.expander("ℹ️ How to use"):
-        st.markdown(""" 
+        st.markdown("""
         1. Enter your desired topic in the text area above
         2. Adjust the temperature if needed (higher = more creative)
         3. Click 'Generate Content' to start
@@ -49,11 +48,10 @@ with st.sidebar:
 def generate_content(topic):
     llm = LLM(
         model="command-r",
-        temperature=0.7,
-        api_key=COHERE_API_KEY  # Set the API key for Cohere
+        temperature=0.7
     )
 
-    search_tool = SerperDevTool(n_results=10, api_key=SERPER_API_KEY)  # Set the API key for Serper
+    search_tool = SerperDevTool(n_results=10)
 
     # First Agent: Senior Research Analyst
     senior_research_analyst = Agent(
@@ -93,7 +91,7 @@ def generate_content(topic):
 
     # Research Task
     research_task = Task(
-        description=(""" 
+        description=("""
             1. Conduct comprehensive research on {topic} including:
                 - Recent developments and news
                 - Key industry trends and innovations
@@ -115,7 +113,7 @@ def generate_content(topic):
 
     # Writing Task
     writing_task = Task(
-        description=(""" 
+        description=("""
             Using the research brief provided, create an engaging blog post that:
             1. Transforms technical information into accessible content
             2. Maintains all factual accuracy and citations from the research
@@ -164,4 +162,4 @@ if generate_button:
 
 # Footer
 st.markdown("---")
-st.markdown("Built with CrewAI, Streamlit, and powered by Cohere's Command R7B")
+st.markdown("Built with CrewAI, Streamlit and powered by Cohere's Command R7B")
