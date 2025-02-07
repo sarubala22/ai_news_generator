@@ -1,1 +1,8 @@
-crewai
+crewai==0.1.2
+chromadb==0.5.7
+streamlit==1.16.0
+pandas==1.4.2
+numpy==1.23.0
+requests==2.26.0
+openai==0.26.0
+
